@@ -18,7 +18,7 @@ services:
       - dev-network
 
   frontend:
-    build: ../Frontend
+    build: ../Frontend/devops3
     container_name: frontend
     ports:
       - "3000:3000"
