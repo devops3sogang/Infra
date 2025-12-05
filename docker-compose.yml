@@ -7,12 +7,10 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - mongo
       - crawler
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      DB_HOST: mongo
-      DB_PORT: 27017
+      MONGODB_URI: ${MONGODB_URI}
       SONAR_HOST_URL: ${SONAR_HOST_URL}
       SONAR_TOKEN: ${SONAR_TOKEN}
       ENABLE_CRAWLER: ${ENABLE_CRAWLER}
@@ -32,17 +30,6 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    networks:
-      - dev-network
-
-  mongo:
-    image: mongo:7
-    container_name: mongo
-    restart: always
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
     networks:
       - dev-network
 
