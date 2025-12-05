@@ -8,12 +8,20 @@ services:
       - "8080:8080"
     depends_on:
       - mongo
+      - crawler
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mongo
       DB_PORT: 27017
       SONAR_HOST_URL: ${SONAR_HOST_URL}
       SONAR_TOKEN: ${SONAR_TOKEN}
+      ENABLE_CRAWLER: ${ENABLE_CRAWLER}
+    networks:
+      - dev-network
+  
+  crawler:
+    build: ../crawling
+    container_name: crawler
     networks:
       - dev-network
 
