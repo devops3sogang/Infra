@@ -12,6 +12,8 @@ services:
       SPRING_PROFILES_ACTIVE: prod
       DB_HOST: mongo
       DB_PORT: 27017
+      SONAR_HOST_URL: ${SONAR_HOST_URL}
+      SONAR_TOKEN: ${SONAR_TOKEN}
     networks:
       - dev-network
 
