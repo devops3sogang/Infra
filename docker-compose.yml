@@ -44,7 +44,7 @@ services:
     volumes:
      - frontend_ssl:/etc/nginx/ssl
     entrypoint: >
-      sh -c "
+      sh -c '
       mkdir -p /etc/nginx/ssl &&
       if [ ! -f /etc/nginx/ssl/selfsigned.crt ]; then
         openssl req -x509 -nodes -days 365 \
@@ -53,8 +53,8 @@ services:
           -keyout /etc/nginx/ssl/selfsigned.key \
           -out /etc/nginx/ssl/selfsigned.crt;
       fi &&
-      nginx -g 'daemon off;'
-      "
+      nginx -g "daemon off;"
+      '
     networks:
       - dev-network
     healthcheck: 
