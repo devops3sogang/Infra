@@ -48,7 +48,7 @@ services:
       mkdir -p /etc/nginx/ssl &&
       if [ ! -f /etc/nginx/ssl/selfsigned.crt ]; then
         openssl req -x509 -nodes -days 365 \
-          -subj '/CN=localhost' \
+          -subj "/CN=xn--939at21b.xn--299aj40a3hj8tm.xn--3e0b707e" \
           -newkey rsa:2048 \
           -keyout /etc/nginx/ssl/selfsigned.key \
           -out /etc/nginx/ssl/selfsigned.crt;
