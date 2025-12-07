@@ -41,6 +41,20 @@ services:
       - "443:443"
     depends_on:
       - backend
+    volumes:
+     - frontend_ssl:/etc/nginx/ssl
+    entrypoint: >
+      sh -c "
+      mkdir -p /etc/nginx/ssl &&
+      if [ ! -f /etc/nginx/ssl/selfsigned.crt ]; then
+        openssl req -x509 -nodes -days 365 \
+          -subj '/CN=localhost' \
+          -newkey rsa:2048 \
+          -keyout /etc/nginx/ssl/selfsigned.key \
+          -out /etc/nginx/ssl/selfsigned.crt;
+      fi &&
+      nginx -g 'daemon off;'
+      "
     networks:
       - dev-network
     healthcheck: 
@@ -80,6 +94,7 @@ networks:
 
 volumes:
   mongo_data:
+  frontend_ssl:
   jenkins_home:
   sonarqube_data:
   sonarqube_extensions:
