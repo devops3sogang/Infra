@@ -17,6 +17,8 @@ services:
       SONAR_HOST_URL: ${SONAR_HOST_URL}
       SONAR_TOKEN: ${SONAR_TOKEN}
       ENABLE_CRAWLER: ${ENABLE_CRAWLER}
+    volumes:
+      - ./uploads/images:/app/uploads/images   # 이 줄 추가
     networks:
       - dev-network
   
