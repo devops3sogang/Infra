@@ -18,10 +18,10 @@ services:
       SONAR_TOKEN: ${SONAR_TOKEN}
       ENABLE_CRAWLER: ${ENABLE_CRAWLER}
     volumes:
-      - ./uploads/images:/app/uploads/images   # 이 줄 추가
+      - ./uploads/images:/app/uploads/images
     networks:
       - dev-network
-  
+
   crawler:
     build:
       context: ../crawling
@@ -34,32 +34,17 @@ services:
     build:
       context: ../Frontend/devops3
       dockerfile: Dockerfile
-      args: 
+      args:
         VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY:-}
     container_name: frontend
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "3000:80"  # 호스트 nginx가 3000으로 프록시
     depends_on:
       - backend
-    volumes:
-     - frontend_ssl:/etc/nginx/ssl
-    entrypoint: >
-      sh -c '
-      mkdir -p /etc/nginx/ssl &&
-      if [ ! -f /etc/nginx/ssl/selfsigned.crt ]; then
-        openssl req -x509 -nodes -days 365 \
-          -subj "/CN=xn--939at21b.xn--299aj40a3hj8tm.xn--3e0b707e" \
-          -newkey rsa:2048 \
-          -keyout /etc/nginx/ssl/selfsigned.key \
-          -out /etc/nginx/ssl/selfsigned.crt;
-      fi &&
-      nginx -g "daemon off;"
-      '
     networks:
       - dev-network
-    healthcheck: 
+    healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80"]
       interval: 30s
       timeout: 10s
@@ -96,7 +81,6 @@ networks:
 
 volumes:
   mongo_data:
-  frontend_ssl:
   jenkins_home:
   sonarqube_data:
   sonarqube_extensions:
